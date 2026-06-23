@@ -1,0 +1,38 @@
+name: climate
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  # Core scientific
+  - numpy>=1.24
+  - pandas>=2.0
+  - scipy>=1.10
+  - matplotlib>=3.7
+  # Geospatial
+  - rasterio>=1.3
+  - geopandas>=0.14
+  - shapely>=2.0
+  - contextily>=1.3
+  # Climate / netCDF
+  - xarray
+  - netcdf4
+  - cf_xarray
+  - dask
+  - zarr
+  - cdsapi
+  # Downscaling / regridding
+  - xesmf
+  - esmpy
+  # Data
+  - openpyxl>=3.1
+  # Reports
+  - python-docx>=1.0
+  # Jupyter
+  - jupyterlab
+  - ipykernel
+  - ipywidgets
+  # CLIMADA (pip only)
+  - pip
+  - pip:
+    - climada

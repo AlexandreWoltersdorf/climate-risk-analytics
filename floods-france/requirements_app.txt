@@ -1,0 +1,26 @@
+# Floods France — Streamlit App
+# pip install -r requirements_app.txt
+
+# Web app
+streamlit>=1.32.0
+streamlit-folium>=0.18.0
+
+# Données géospatiales
+geopandas>=0.14
+folium>=0.16
+branca>=0.7
+shapely>=2.0
+
+# Données / calcul
+pandas>=2.0
+numpy>=1.25
+scipy>=1.11
+requests>=2.31
+
+# Visualisation
+plotly>=5.18
+
+# Notebooks (optionnel)
+jupyter>=1.0
+ipykernel>=6.0
+mapclassify>=2.6

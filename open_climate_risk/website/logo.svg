@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Open Climate Risk — Risk Rose + Topographic Contours Logo -->
+  <!-- Petals clipped per quadrant + center mask for smooth termination -->
+
+  <defs>
+    <!-- Quadrant clips -->
+    <clipPath id="tl"><path d="M100,100 L0,100 L0,0 L100,0 Z"/></clipPath>
+    <clipPath id="tr"><path d="M100,100 L100,0 L200,0 L200,100 Z"/></clipPath>
+    <clipPath id="bl"><path d="M100,100 L100,200 L0,200 L0,100 Z"/></clipPath>
+    <clipPath id="br"><path d="M100,100 L200,100 L200,200 L100,200 Z"/></clipPath>
+    <!-- Center mask: everything visible except a circle around center -->
+    <mask id="cm">
+      <rect width="200" height="200" fill="white"/>
+      <circle cx="100" cy="100" r="14" fill="black"/>
+    </mask>
+  </defs>
+
+  <!-- All petals wrapped in center mask — lines fade into the center cleanly -->
+  <g mask="url(#cm)">
+    <!-- Hazard — top-left -->
+    <g clip-path="url(#tl)">
+      <g transform="rotate(-45, 100, 100)">
+        <ellipse cx="100" cy="54" rx="30" ry="50" stroke="#E63946" stroke-width="2.8" fill="none"/>
+        <ellipse cx="100" cy="62" rx="22" ry="38" stroke="#E63946" stroke-width="2.2" fill="none"/>
+        <ellipse cx="100" cy="70" rx="13" ry="24" stroke="#E63946" stroke-width="1.8" fill="none"/>
+      </g>
+    </g>
+
+    <!-- Vulnerability — top-right -->
+    <g clip-path="url(#tr)">
+      <g transform="rotate(45, 100, 100)">
+        <ellipse cx="100" cy="54" rx="30" ry="50" stroke="#FF8C00" stroke-width="2.8" fill="none"/>
+        <ellipse cx="100" cy="62" rx="22" ry="38" stroke="#FF8C00" stroke-width="2.2" fill="none"/>
+        <ellipse cx="100" cy="70" rx="13" ry="24" stroke="#FF8C00" stroke-width="1.8" fill="none"/>
+      </g>
+    </g>
+
+    <!-- Exposure — bottom-left -->
+    <g clip-path="url(#bl)">
+      <g transform="rotate(-135, 100, 100)">
+        <ellipse cx="100" cy="54" rx="30" ry="50" stroke="#0096B4" stroke-width="2.8" fill="none"/>
+        <ellipse cx="100" cy="62" rx="22" ry="38" stroke="#0096B4" stroke-width="2.2" fill="none"/>
+        <ellipse cx="100" cy="70" rx="13" ry="24" stroke="#0096B4" stroke-width="1.8" fill="none"/>
+      </g>
+    </g>
+
+    <!-- Response — bottom-right -->
+    <g clip-path="url(#br)">
+      <g transform="rotate(135, 100, 100)">
+        <ellipse cx="100" cy="54" rx="30" ry="50" stroke="#00B87A" stroke-width="2.8" fill="none"/>
+        <ellipse cx="100" cy="62" rx="22" ry="38" stroke="#00B87A" stroke-width="2.2" fill="none"/>
+        <ellipse cx="100" cy="70" rx="13" ry="24" stroke="#00B87A" stroke-width="1.8" fill="none"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Center dot — RISK (OCR Blue), drawn on top -->
+  <circle cx="100" cy="100" r="10" fill="#2525FF"/>
+</svg>

@@ -1,0 +1,24 @@
+[project]
+name = "open-climate-risk"
+version = "0.1.0"
+description = "Open-source climate physical risk screening tools"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "scipy",
+    "rasterio",
+    "geopandas",
+    "shapely",
+    "contextily",
+    "openpyxl",
+    "python-docx",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

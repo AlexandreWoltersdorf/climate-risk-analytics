@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Climate Risk Platform</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #2525FF;
+      --blue-70: #5858FF;
+      --blue-40: #8F8FFF;
+      --blue-15: #C9C9FF;
+      --blue-05: #EDEDFF;
+      --dark: #18181B;
+      --grey-bg: #F4F4F5;
+      --grey-border: #E4E4E7;
+      --grey-text: #71717A;
+      --white: #FFFFFF;
+      --orange: #FF8C00;
+      --red: #E63946;
+      --green: #00B87A;
+      --teal: #0096B4;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--dark);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ──────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--grey-border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 1px 12px rgba(0,0,0,0.06); }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 700; font-size: 1.05rem; color: var(--dark);
+    }
+    .nav-logo svg { flex-shrink: 0; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--grey-text); font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--dark); text-decoration: none; }
+    .nav-cta {
+      background: var(--blue); color: var(--white) !important;
+      padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--blue-70); text-decoration: none !important; }
+
+    /* ── Sections ─────────────────────────────────────────────── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--blue); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: 2.5rem; font-weight: 800; line-height: 1.15;
+      margin-bottom: 1.25rem; letter-spacing: -0.02em;
+    }
+    .section-subtitle {
+      font-size: 1.15rem; color: var(--grey-text);
+      max-width: 600px; line-height: 1.7;
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: linear-gradient(168deg, var(--white) 0%, var(--blue-05) 50%, var(--white) 100%);
+      padding-top: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      border: 1px solid var(--blue-15);
+      opacity: 0.5;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      border: 1px solid var(--blue-15);
+      opacity: 0.4;
+    }
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--grey-border);
+      padding: 6px 14px; border-radius: 100px;
+      font-size: 0.8rem; font-weight: 500; color: var(--grey-text);
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge span {
+      background: var(--green); color: white;
+      padding: 2px 8px; border-radius: 100px;
+      font-size: 0.7rem; font-weight: 700;
+    }
+    .hero h1 {
+      font-size: 3.5rem; font-weight: 800; line-height: 1.08;
+      letter-spacing: -0.03em; margin-bottom: 1.5rem;
+    }
+    .hero h1 .accent { color: var(--blue); }
+    .hero p {
+      font-size: 1.2rem; color: var(--grey-text);
+      line-height: 1.7; margin-bottom: 2rem; max-width: 520px;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 600;
+      transition: all 0.2s; cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--blue); color: var(--white); }
+    .btn-primary:hover { background: var(--blue-70); text-decoration: none; }
+    .btn-secondary {
+      background: var(--white); color: var(--dark);
+      border: 1px solid var(--grey-border);
+    }
+    .btn-secondary:hover { border-color: var(--blue-40); text-decoration: none; }
+
+    /* Hero visual — terminal mockup */
+    .hero-visual {
+      background: var(--dark);
+      border-radius: 16px;
+      padding: 0;
+      box-shadow: 0 24px 80px rgba(37,37,255,0.12), 0 4px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    .terminal-bar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 18px;
+      background: #27272A;
+    }
+    .terminal-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .terminal-bar span:nth-child(1) .terminal-dot { background: #EF4444; }
+    .terminal-bar span:nth-child(2) .terminal-dot { background: #EAB308; }
+    .terminal-bar span:nth-child(3) .terminal-dot { background: #22C55E; }
+    .terminal-title {
+      flex: 1; text-align: center;
+      font-size: 0.8rem; color: var(--grey-text); font-family: var(--mono);
+    }
+    .terminal-body {
+      padding: 1.5rem; font-family: var(--mono);
+      font-size: 0.82rem; line-height: 1.8; color: #A1A1AA;
+    }
+    .terminal-body .comment { color: #6B7280; }
+    .terminal-body .keyword { color: #C084FC; }
+    .terminal-body .string { color: #34D399; }
+    .terminal-body .function { color: #60A5FA; }
+    .terminal-body .number { color: #FBBF24; }
+    .terminal-body .prompt { color: var(--green); }
+    .terminal-body .output { color: #E4E4E7; }
+
+    /* ── Stats bar ────────────────────────────────────────────── */
+    .stats {
+      padding: 3rem 2rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--grey-border);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem; text-align: center;
+    }
+    .stat-number {
+      font-size: 2.5rem; font-weight: 800;
+      color: var(--blue); letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 0.85rem; color: var(--grey-text);
+      margin-top: 4px;
+    }
+
+    /* ── Features ─────────────────────────────────────────────── */
+    .features { background: var(--grey-bg); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--grey-border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.25s;
+    }
+    .feature-card:hover {
+      border-color: var(--blue-40);
+      box-shadow: 0 8px 32px rgba(37,37,255,0.08);
+      transform: translateY(-2px);
+    }
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.3rem;
+    }
+    .feature-card h3 {
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .feature-card p {
+      font-size: 0.9rem; color: var(--grey-text); line-height: 1.6;
+    }
+
+    /* ── Pipeline ─────────────────────────────────────────────── */
+    .pipeline-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0; margin-top: 3rem;
+      position: relative;
+    }
+    .pipeline-step {
+      text-align: center; padding: 2rem 1.5rem;
+      position: relative;
+    }
+    .pipeline-step::after {
+      content: '';
+      position: absolute; top: 40px; right: -12px;
+      width: 24px; height: 2px;
+      background: var(--blue-40);
+    }
+    .pipeline-step:last-child::after { display: none; }
+    .step-number {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--blue-05); color: var(--blue);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.2rem;
+      margin-bottom: 1rem;
+      border: 2px solid var(--blue-15);
+    }
+    .pipeline-step h3 {
+      font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .pipeline-step p {
+      font-size: 0.85rem; color: var(--grey-text); line-height: 1.5;
+    }
+
+    /* ── Architecture ─────────────────────────────────────────── */
+    .architecture { background: var(--grey-bg); }
+    .arch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem; margin-top: 3rem; align-items: start;
+    }
+    .file-tree {
+      background: var(--dark); color: #E4E4E7;
+      border-radius: 16px; padding: 2rem;
+      font-family: var(--mono); font-size: 0.85rem;
+      line-height: 2;
+    }
+    .file-tree .dir { color: var(--blue-40); font-weight: 600; }
+    .file-tree .file { color: #A1A1AA; }
+    .file-tree .desc { color: #6B7280; }
+    .module-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .module-card {
+      background: var(--white);
+      border: 1px solid var(--grey-border);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 12px 12px 0;
+      padding: 1.25rem 1.5rem;
+    }
+    .module-card h4 {
+      font-size: 0.95rem; font-weight: 700;
+      font-family: var(--mono); margin-bottom: 4px;
+    }
+    .module-card p {
+      font-size: 0.85rem; color: var(--grey-text); line-height: 1.5;
+    }
+
+    /* ── Data Sources ─────────────────────────────────────────── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 3rem;
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .data-table th {
+      background: var(--dark); color: var(--white);
+      padding: 1rem 1.5rem; text-align: left;
+      font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .data-table td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--grey-border);
+      font-size: 0.9rem;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--blue-05); }
+    .badge-license {
+      display: inline-block;
+      padding: 3px 10px; border-radius: 100px;
+      font-size: 0.75rem; font-weight: 600;
+      background: var(--green); color: white;
+    }
+
+    /* ── Hazards ──────────────────────────────────────────────── */
+    .hazards { background: var(--grey-bg); }
+    .hazards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .hazard-card {
+      background: var(--white);
+      border: 1px solid var(--grey-border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex; gap: 1.25rem; align-items: flex-start;
+    }
+    .hazard-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+    }
+    .hazard-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+    .hazard-card p { font-size: 0.85rem; color: var(--grey-text); line-height: 1.6; }
+    .hazard-status {
+      display: inline-block; padding: 3px 10px;
+      border-radius: 100px; font-size: 0.7rem; font-weight: 700;
+      margin-top: 8px; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .status-live { background: #DCFCE7; color: #166534; }
+    .status-next { background: #FEF3C7; color: #92400E; }
+    .status-planned { background: var(--blue-05); color: var(--blue); }
+
+    /* ── Roadmap ──────────────────────────────────────────────── */
+    .roadmap-timeline {
+      margin-top: 3rem;
+      position: relative;
+      padding-left: 3rem;
+    }
+    .roadmap-timeline::before {
+      content: '';
+      position: absolute; left: 15px; top: 0; bottom: 0;
+      width: 2px; background: var(--blue-15);
+    }
+    .roadmap-item {
+      position: relative;
+      padding-bottom: 2.5rem;
+    }
+    .roadmap-item:last-child { padding-bottom: 0; }
+    .roadmap-dot {
+      position: absolute; left: -3rem; top: 4px;
+      width: 12px; height: 12px; border-radius: 50%;
+      border: 3px solid var(--blue);
+      background: var(--white);
+      transform: translateX(10px);
+    }
+    .roadmap-dot.active { background: var(--blue); }
+    .roadmap-item h3 {
+      font-size: 1rem; font-weight: 700; margin-bottom: 4px;
+    }
+    .roadmap-item .time {
+      font-size: 0.8rem; color: var(--blue); font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .roadmap-item p {
+      font-size: 0.9rem; color: var(--grey-text); line-height: 1.6;
+    }
+
+    /* ── CTA ──────────────────────────────────────────────────── */
+    .cta-section {
+      background: var(--dark);
+      color: var(--white);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -300px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,37,255,0.15), transparent 70%);
+    }
+    .cta-section .section-title { color: var(--white); }
+    .cta-section p {
+      color: #A1A1AA; font-size: 1.1rem;
+      max-width: 560px; margin: 0 auto 2rem; line-height: 1.7;
+    }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+    footer {
+      padding: 3rem 2rem;
+      border-top: 1px solid #27272A;
+      background: var(--dark); color: #71717A;
+      font-size: 0.85rem;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { color: #A1A1AA; font-size: 0.85rem; }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ── Code block ───────────────────────────────────────────── */
+    .code-install {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--dark); color: #E4E4E7;
+      padding: 14px 20px; border-radius: 10px;
+      font-family: var(--mono); font-size: 0.85rem;
+      margin-top: 2rem; max-width: 460px;
+      cursor: pointer; position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .code-install:hover {
+      box-shadow: 0 0 0 2px var(--blue-40);
+    }
+    .code-install .dollar { color: var(--green); }
+    .code-install .copy-hint {
+      position: absolute; right: 16px;
+      font-size: 0.75rem; color: #6B7280;
+    }
+
+    /* ── References ───────────────────────────────────────────── */
+    .ref-list {
+      margin-top: 2rem;
+      display: grid; gap: 1rem;
+    }
+    .ref-item {
+      background: var(--white);
+      border: 1px solid var(--grey-border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.88rem;
+      color: var(--grey-text);
+      line-height: 1.6;
+    }
+    .ref-item strong { color: var(--dark); }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero .container { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pipeline-steps { grid-template-columns: 1fr 1fr; }
+      .pipeline-step::after { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .arch-grid { grid-template-columns: 1fr; }
+      .hazards-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2rem; }
+      .section-title { font-size: 1.8rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .pipeline-steps { grid-template-columns: 1fr; }
+    }
+
+    /* ── Animations ───────────────────────────────────────────── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1; transform: translateY(0);
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ═══ Nav ═══════════════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg width="32" height="32" viewBox="0 0 200 200" fill="none">
+        <defs><clipPath id="ntl"><path d="M100,100 L0,100 L0,0 L100,0Z"/></clipPath><clipPath id="ntr"><path d="M100,100 L100,0 L200,0 L200,100Z"/></clipPath><clipPath id="nbl"><path d="M100,100 L100,200 L0,200 L0,100Z"/></clipPath><clipPath id="nbr"><path d="M100,100 L200,100 L200,200 L100,200Z"/></clipPath><mask id="ncm"><rect width="200" height="200" fill="white"/><circle cx="100" cy="100" r="14" fill="black"/></mask></defs>
+        <g mask="url(#ncm)"><g clip-path="url(#ntl)"><g transform="rotate(-45,100,100)"><ellipse cx="100" cy="54" rx="30" ry="50" stroke="#E63946" stroke-width="2.8" fill="none"/><ellipse cx="100" cy="62" rx="22" ry="38" stroke="#E63946" stroke-width="2.2" fill="none"/><ellipse cx="100" cy="70" rx="13" ry="24" stroke="#E63946" stroke-width="1.8" fill="none"/></g></g><g clip-path="url(#ntr)"><g transform="rotate(45,100,100)"><ellipse cx="100" cy="54" rx="30" ry="50" stroke="#FF8C00" stroke-width="2.8" fill="none"/><ellipse cx="100" cy="62" rx="22" ry="38" stroke="#FF8C00" stroke-width="2.2" fill="none"/><ellipse cx="100" cy="70" rx="13" ry="24" stroke="#FF8C00" stroke-width="1.8" fill="none"/></g></g><g clip-path="url(#nbl)"><g transform="rotate(-135,100,100)"><ellipse cx="100" cy="54" rx="30" ry="50" stroke="#0096B4" stroke-width="2.8" fill="none"/><ellipse cx="100" cy="62" rx="22" ry="38" stroke="#0096B4" stroke-width="2.2" fill="none"/><ellipse cx="100" cy="70" rx="13" ry="24" stroke="#0096B4" stroke-width="1.8" fill="none"/></g></g><g clip-path="url(#nbr)"><g transform="rotate(135,100,100)"><ellipse cx="100" cy="54" rx="30" ry="50" stroke="#00B87A" stroke-width="2.8" fill="none"/><ellipse cx="100" cy="62" rx="22" ry="38" stroke="#00B87A" stroke-width="2.2" fill="none"/><ellipse cx="100" cy="70" rx="13" ry="24" stroke="#00B87A" stroke-width="1.8" fill="none"/></g></g></g>
+        <circle cx="100" cy="100" r="10" fill="#2525FF"/>
+      </svg>
+      Open Climate Risk
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#hazards">Hazards</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+    </ul>
+    <a href="#get-started" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- ═══ Hero ══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div>
+      <div class="hero-badge">
+        <span>v0.1</span> Open-source climate risk screening
+      </div>
+      <h1>
+        Physical climate risk,<br>
+        <span class="accent">made accessible.</span>
+      </h1>
+      <p>
+        Screen flood risk for any asset worldwide using public datasets.
+        From hazard extraction to Expected Annual Damage &mdash; in a single
+        Python notebook.
+      </p>
+      <div class="hero-actions">
+        <a href="#get-started" class="btn btn-primary">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 1v12M4 8l5 5 5-5"/></svg>
+          Quick Start
+        </a>
+        <a href="#pipeline" class="btn btn-secondary">
+          How it works
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="code-install" onclick="copyInstall()" id="install-cmd">
+        <span class="dollar">$</span> pip install open-climate-risk
+        <span class="copy-hint" id="copy-hint">click to copy</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="terminal-bar">
+        <span><span class="terminal-dot"></span></span>
+        <span><span class="terminal-dot"></span></span>
+        <span><span class="terminal-dot"></span></span>
+        <span class="terminal-title">01_riverine_flood_risk.ipynb</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="comment"># Define your asset</span></div>
+        <div>ASSET = {</div>
+        <div>&nbsp;&nbsp;<span class="string">'name'</span>: <span class="string">'Warehouse &mdash; Rotterdam'</span>,</div>
+        <div>&nbsp;&nbsp;<span class="string">'lon'</span>: <span class="number">4.47</span>, <span class="string">'lat'</span>: <span class="number">51.95</span>,</div>
+        <div>&nbsp;&nbsp;<span class="string">'asset_type'</span>: <span class="string">'industrial'</span>,</div>
+        <div>&nbsp;&nbsp;<span class="string">'value_eur'</span>: <span class="number">8_500_000</span>,</div>
+        <div>}</div>
+        <br>
+        <div><span class="comment"># Extract hazard &amp; compute risk</span></div>
+        <div>df = ocr_data.<span class="function">extract_hazard_df</span>(ASSET, RPs)</div>
+        <div>df = ocr_analysis.<span class="function">apply_damage</span>(df, curves, ASSET)</div>
+        <div>ead, pct = ocr_analysis.<span class="function">compute_ead</span>(df, ASSET)</div>
+        <br>
+        <div><span class="prompt">&gt;&gt;&gt;</span> <span class="output">EAD = 23,450 EUR/yr (0.28% of value)</span></div>
+        <div><span class="prompt">&gt;&gt;&gt;</span> <span class="output">Max depth (RP1000) = 1.42 m</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Stats ═════════════════════════════════════════════════ -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="fade-in">
+        <div class="stat-number">135</div>
+        <div class="stat-label">GeoTIFF rasters loaded</div>
+      </div>
+      <div class="fade-in">
+        <div class="stat-number">5</div>
+        <div class="stat-label">GCM climate models</div>
+      </div>
+      <div class="fade-in">
+        <div class="stat-number">9</div>
+        <div class="stat-label">Return periods (2 &ndash; 1000 yr)</div>
+      </div>
+      <div class="fade-in">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Open data &amp; open source</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Features ══════════════════════════════════════════════ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-label">Capabilities</div>
+    <div class="section-title">Everything you need for<br>climate risk screening</div>
+    <div class="section-subtitle">
+      From raw hazard data to boardroom-ready reports, in a reproducible Python workflow.
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon" style="background: #EFF6FF; color: #2563EB;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 9h20"/></svg>
+        </div>
+        <h3>Hazard Extraction</h3>
+        <p>Automatically sample WRI Aqueduct flood depth rasters for any coordinate. Supports both local GeoTIFFs and cloud-optimized streaming from S3.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon" style="background: #FEF3C7; color: #D97706;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18M6 16v4M10 12v8M14 8v12M18 4v16"/></svg>
+        </div>
+        <h3>Vulnerability Curves</h3>
+        <p>JRC depth-damage functions (Huizinga et al. 2017) for residential, commercial, industrial, agriculture, and transport assets.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon" style="background: #DCFCE7; color: #16A34A;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Expected Annual Damage</h3>
+        <p>Trapezoidal integration over the full exceedance-probability curve. Express risk as EUR/year and % of asset value.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon" style="background: #FEE2E2; color: #DC2626;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 22h20L12 2z"/><path d="M12 9v5M12 17h.01"/></svg>
+        </div>
+        <h3>Climate Scenarios</h3>
+        <p>Compare historical baseline vs. RCP 4.5 and RCP 8.5 at 2050. Ensemble of 5 ISIMIP2b GCMs with median and min/max spread.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon" style="background: #F3E8FF; color: #9333EA;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3>Portfolio Analysis</h3>
+        <p>Batch-process hundreds of assets. Map portfolio exposure, identify hotspots, rank by EAD, and compare coastal vs. riverine risk.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon" style="background: #E0F2FE; color: #0284C7;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        </div>
+        <h3>Automated Reports</h3>
+        <p>Generate branded Word (.docx) and Excel (.xlsx) reports with all figures, tables, methodology notes, and data exports.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Pipeline ══════════════════════════════════════════════ -->
+<section id="pipeline">
+  <div class="container">
+    <div class="section-label">How it works</div>
+    <div class="section-title">Four-stage risk pipeline</div>
+    <div class="section-subtitle">
+      Each step is a composable Python function. Chain them in a notebook or script.
+    </div>
+    <div class="pipeline-steps">
+      <div class="pipeline-step fade-in">
+        <div class="step-number">1</div>
+        <h3>Define Asset</h3>
+        <p>Location (lon/lat), type (residential, industrial...), replacement value, floor area.</p>
+      </div>
+      <div class="pipeline-step fade-in">
+        <div class="step-number">2</div>
+        <h3>Extract Hazard</h3>
+        <p>Sample Aqueduct GeoTIFFs at 9 return periods. Riverine (5 GCMs) or coastal (4 scenarios).</p>
+      </div>
+      <div class="pipeline-step fade-in">
+        <div class="step-number">3</div>
+        <h3>Apply Damage</h3>
+        <p>Interpolate JRC depth-damage curves. Convert flood depth to damage ratio and monetary loss.</p>
+      </div>
+      <div class="pipeline-step fade-in">
+        <div class="step-number">4</div>
+        <h3>Compute EAD</h3>
+        <p>Integrate over the exceedance-probability curve. Compare scenarios, generate reports.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Architecture ═════════════════════════════════════════ -->
+<section class="architecture" id="architecture">
+  <div class="container">
+    <div class="section-label">Package structure</div>
+    <div class="section-title">Clean, modular architecture</div>
+    <div class="section-subtitle">
+      Five focused modules, each with a clear responsibility.
+    </div>
+    <div class="arch-grid">
+      <div class="file-tree">
+        <div><span class="dir">open_climate_risk/</span></div>
+        <div>&nbsp;&nbsp;<span class="file">pyproject.toml</span> <span class="desc"># metadata &amp; deps</span></div>
+        <div>&nbsp;&nbsp;<span class="dir">src/open_climate_risk/</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">config.py</span> <span class="desc"># paths, GCMs, scenarios</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">data.py</span> <span class="desc"># raster I/O, JRC curves</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">analysis.py</span> <span class="desc"># EAD, damage, ensemble</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">plot.py</span> <span class="desc"># all matplotlib figures</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">report.py</span> <span class="desc"># Word &amp; Excel generation</span></div>
+        <div>&nbsp;&nbsp;<span class="dir">notebooks/</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">01_riverine_flood_risk.ipynb</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">02_coastal_flood_risk.ipynb</span></div>
+        <div>&nbsp;&nbsp;<span class="dir">data/aqueduct/</span> <span class="desc"># 135 GeoTIFFs</span></div>
+        <div>&nbsp;&nbsp;<span class="dir">references/</span> <span class="desc"># JRC curves</span></div>
+        <div>&nbsp;&nbsp;<span class="dir">tests/</span> <span class="desc"># 22 unit tests</span></div>
+      </div>
+      <div class="module-cards">
+        <div class="module-card fade-in">
+          <h4>config.py</h4>
+          <p>Project paths, Aqueduct S3 URLs, return periods, GCM model definitions, climate scenario configurations for riverine and coastal.</p>
+        </div>
+        <div class="module-card fade-in" style="border-left-color: var(--orange);">
+          <h4>data.py</h4>
+          <p>Raster sampling (local or S3 streaming), JRC vulnerability curve loading, batch extraction for portfolios, coastal source construction.</p>
+        </div>
+        <div class="module-card fade-in" style="border-left-color: var(--red);">
+          <h4>analysis.py</h4>
+          <p>Depth-damage application, EAD computation via trapezoidal integration, multi-GCM ensemble extraction, portfolio batch processing.</p>
+        </div>
+        <div class="module-card fade-in" style="border-left-color: var(--green);">
+          <h4>plot.py</h4>
+          <p>Risk screening dashboard, hazard curves (per GCM / per scenario), portfolio maps, scenario comparisons. Publication-quality matplotlib.</p>
+        </div>
+        <div class="module-card fade-in" style="border-left-color: var(--teal);">
+          <h4>report.py</h4>
+          <p>Automated Word report with executive summary, methodology, figures, and data tables. Excel export with styled formatting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Data Sources ═════════════════════════════════════════ -->
+<section id="data">
+  <div class="container">
+    <div class="section-label">Open data</div>
+    <div class="section-title">Built on world-class public datasets</div>
+    <div class="section-subtitle">
+      Every input is open-access, peer-reviewed, and freely redistributable.
+    </div>
+    <table class="data-table fade-in">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Dataset</th>
+          <th>Resolution</th>
+          <th>Coverage</th>
+          <th>License</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Riverine Hazard</strong></td>
+          <td>WRI Aqueduct Floods v2</td>
+          <td>~1 km (30")</td>
+          <td>Global</td>
+          <td><span class="badge-license">CC BY 4.0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Coastal Hazard</strong></td>
+          <td>WRI Aqueduct Coastal Floods v2</td>
+          <td>~1 km (30")</td>
+          <td>Global coastlines</td>
+          <td><span class="badge-license">CC BY 4.0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Vulnerability</strong></td>
+          <td>JRC Huizinga et al. 2017</td>
+          <td>Continental</td>
+          <td>Global (6 regions)</td>
+          <td><span class="badge-license">Public domain</span></td>
+        </tr>
+        <tr>
+          <td><strong>Climate Models</strong></td>
+          <td>ISIMIP2b &mdash; 5 GCMs</td>
+          <td>~1 km (downscaled)</td>
+          <td>RCP 4.5 &amp; 8.5 at 2050</td>
+          <td><span class="badge-license">CC BY 4.0</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ Hazard Modules ═══════════════════════════════════════ -->
+<section class="hazards" id="hazards">
+  <div class="container">
+    <div class="section-label">Hazard coverage</div>
+    <div class="section-title">Multi-hazard, step by step</div>
+    <div class="section-subtitle">
+      Starting with flood, expanding to a comprehensive physical risk platform.
+    </div>
+    <div class="hazards-grid">
+      <div class="hazard-card fade-in">
+        <div class="hazard-icon" style="background: #DBEAFE;">
+          <svg width="28" height="28" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"><path d="M3 20c3-3 6 0 9-3s6 0 9-3M3 14c3-3 6 0 9-3s6 0 9-3"/></svg>
+        </div>
+        <div>
+          <h3>Riverine Flood</h3>
+          <p>WRI Aqueduct v2. Historical + RCP 4.5/8.5 at 2050. 5 GCM ensemble with uncertainty bands. 9 return periods (2-1000 yr).</p>
+          <span class="hazard-status status-live">Live</span>
+        </div>
+      </div>
+      <div class="hazard-card fade-in">
+        <div class="hazard-icon" style="background: #E0F2FE;">
+          <svg width="28" height="28" fill="none" stroke="#0284C7" stroke-width="2" stroke-linecap="round"><path d="M3 20c3-3 6 0 9-3s6 0 9-3"/><path d="M7 6l-3 8h6l-3 8"/></svg>
+        </div>
+        <div>
+          <h3>Coastal Flood</h3>
+          <p>Sea-level rise + storm surge. With/without land subsidence. RCP 4.5/8.5 at 2050. Dedicated portfolio of 100 European coastal assets.</p>
+          <span class="hazard-status status-live">Live</span>
+        </div>
+      </div>
+      <div class="hazard-card fade-in">
+        <div class="hazard-icon" style="background: #FEF3C7;">
+          <svg width="28" height="28" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><circle cx="14" cy="14" r="5"/><path d="M14 3v3M14 22v3M3 14h3M22 14h3M6.3 6.3l2.1 2.1M19.6 19.6l2.1 2.1M6.3 21.7l2.1-2.1M19.6 8.4l2.1-2.1"/></svg>
+        </div>
+        <div>
+          <h3>Heat Stress</h3>
+          <p>Universal Thermal Climate Index (UTCI) and Wet-Bulb Globe Temperature. Worker productivity loss, urban heat island effects.</p>
+          <span class="hazard-status status-next">Q3 2026</span>
+        </div>
+      </div>
+      <div class="hazard-card fade-in">
+        <div class="hazard-icon" style="background: #FEE2E2;">
+          <svg width="28" height="28" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round"><path d="M12 2C8 6 4 10 4 15a10 10 0 0020 0c0-5-4-9-8-13"/></svg>
+        </div>
+        <div>
+          <h3>Wildfire</h3>
+          <p>Fire Weather Index (FWI) and burned-area probability. Forest and WUI exposure. Property loss curves from recent events.</p>
+          <span class="hazard-status status-planned">2027</span>
+        </div>
+      </div>
+      <div class="hazard-card fade-in">
+        <div class="hazard-icon" style="background: #FFF7ED;">
+          <svg width="28" height="28" fill="none" stroke="#EA580C" stroke-width="2" stroke-linecap="round"><path d="M14 4v2M14 22v2M4 14h2M22 14h2"/><circle cx="14" cy="14" r="6" stroke-dasharray="3 3"/></svg>
+        </div>
+        <div>
+          <h3>Drought</h3>
+          <p>SPEI-12, soil moisture anomaly. Agricultural yield loss, water supply disruption. Supply-chain screening for water-intensive sectors.</p>
+          <span class="hazard-status status-planned">2027</span>
+        </div>
+      </div>
+      <div class="hazard-card fade-in">
+        <div class="hazard-icon" style="background: #F0FDF4;">
+          <svg width="28" height="28" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round"><path d="M12 22V8M12 8C12 8 8 4 4 6c0 0 2 6 8 2M12 8c0 0 4-4 8-2 0 0-2 6-8 2"/></svg>
+        </div>
+        <div>
+          <h3>Wind / Cyclone</h3>
+          <p>Tropical cyclone wind fields. Parametric wind models with historical track data. Insured loss estimation.</p>
+          <span class="hazard-status status-planned">2027+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Roadmap ═══════════════════════════════════════════════ -->
+<section id="roadmap">
+  <div class="container">
+    <div class="section-label">Roadmap</div>
+    <div class="section-title">What's coming next</div>
+    <div class="section-subtitle">
+      Building toward a comprehensive open-source physical risk platform.
+    </div>
+    <div class="roadmap-timeline">
+      <div class="roadmap-item fade-in">
+        <div class="roadmap-dot active"></div>
+        <div class="time">Now &mdash; Q1 2026</div>
+        <h3>Flood Risk Foundation</h3>
+        <p>Riverine + coastal flood modules. Single-asset and portfolio analysis. JRC vulnerability curves. Automated Word/Excel reports. 22 unit tests.</p>
+      </div>
+      <div class="roadmap-item fade-in">
+        <div class="roadmap-dot"></div>
+        <div class="time">Q2 2026</div>
+        <h3>API & Financial Metrics</h3>
+        <p>FastAPI + PostGIS geospatial API. Financial risk metrics: NPV of expected losses, Value-at-Risk (VaR), Marginal Expected Shortfall. TCFD-aligned reporting.</p>
+      </div>
+      <div class="roadmap-item fade-in">
+        <div class="roadmap-dot"></div>
+        <div class="time">Q3 2026</div>
+        <h3>Heat Stress Module</h3>
+        <p>UTCI and WBGT indices from ERA5-Land + CMIP6. Worker productivity loss functions. Urban heat island adjustments. Occupational health screening.</p>
+      </div>
+      <div class="roadmap-item fade-in">
+        <div class="roadmap-dot"></div>
+        <div class="time">Q4 2026</div>
+        <h3>Drought Module</h3>
+        <p>SPEI-12 from CRU/GPCC datasets. Agricultural yield impact curves. Water stress indicators for industrial screening. Supply chain exposure mapping.</p>
+      </div>
+      <div class="roadmap-item fade-in">
+        <div class="roadmap-dot"></div>
+        <div class="time">2027</div>
+        <h3>Full Multi-Hazard Platform</h3>
+        <p>Wildfire (FWI + burned area), wind/cyclone, compound events. CLIMADA integration. Interactive dashboard. Multi-asset class financial modelling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ References ════════════════════════════════════════════ -->
+<section style="background: var(--grey-bg);" id="references">
+  <div class="container">
+    <div class="section-label">Scientific basis</div>
+    <div class="section-title">Peer-reviewed foundations</div>
+    <div class="ref-list">
+      <div class="ref-item fade-in">
+        <strong>Ward, P.J. et al. (2020).</strong> Aqueduct Floods Methodology. Technical Note. World Resources Institute. <a href="https://doi.org/10.46830/writn.18.00146" target="_blank">doi:10.46830/writn.18.00146</a>
+      </div>
+      <div class="ref-item fade-in">
+        <strong>Huizinga, J., de Moel, H. & Szewczyk, W. (2017).</strong> Global flood depth-damage functions: Methodology and the database. EUR 28552 EN, JRC. <a href="https://doi.org/10.2760/16510" target="_blank">doi:10.2760/16510</a>
+      </div>
+      <div class="ref-item fade-in">
+        <strong>Winsemius, H.C. et al. (2016).</strong> Global drivers of future river flood risk. <em>Nature Climate Change</em>, 6, 381&ndash;385. <a href="https://doi.org/10.1038/nclimate2893" target="_blank">doi:10.1038/nclimate2893</a>
+      </div>
+      <div class="ref-item fade-in">
+        <strong>Hinkel, J. et al. (2014).</strong> Coastal flood damage and adaptation costs under 21st century sea-level rise. <em>PNAS</em>, 111(9), 3292&ndash;3297. <a href="https://doi.org/10.1073/pnas.1222469111" target="_blank">doi:10.1073/pnas.1222469111</a>
+      </div>
+      <div class="ref-item fade-in">
+        <strong>Aznar-Siguan, G. & Bresch, D.N. (2019).</strong> CLIMADA v1: a global weather and climate risk assessment platform. <em>GMD</em>, 12, 3085&ndash;3097. <a href="https://doi.org/10.5194/gmd-12-3085-2019" target="_blank">doi:10.5194/gmd-12-3085-2019</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Get Started / CTA ════════════════════════════════════ -->
+<section class="cta-section" id="get-started">
+  <div class="container">
+    <div class="section-label" style="color: var(--blue-40);">Get started</div>
+    <div class="section-title">Start screening climate risk<br>in five minutes.</div>
+    <p>
+      Clone the repo, install dependencies, open a notebook.
+      No API key, no subscription &mdash; just open science.
+    </p>
+    <div style="background:#27272A;border-radius:14px;padding:1.75rem 2rem;text-align:left;font-family:var(--mono);font-size:0.88rem;line-height:2.2;max-width:600px;margin:0 auto 2.5rem;color:#A1A1AA;">
+      <div><span style="color:#22C55E;">$</span> <span style="color:#E4E4E7;">git clone https://github.com/your-org/open-climate-risk.git</span></div>
+      <div><span style="color:#22C55E;">$</span> <span style="color:#E4E4E7;">cd open-climate-risk</span></div>
+      <div><span style="color:#22C55E;">$</span> <span style="color:#E4E4E7;">pip install -e .</span></div>
+      <div><span style="color:#22C55E;">$</span> <span style="color:#E4E4E7;">jupyter notebook notebooks/01_riverine_flood_risk.ipynb</span></div>
+    </div>
+    <div class="cta-actions">
+      <a href="https://github.com/your-org/open-climate-risk" class="btn btn-primary" target="_blank">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+      <a href="#" class="btn" style="background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.15);">
+        Read Documentation
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Footer ════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <svg width="24" height="24" viewBox="0 0 200 200" fill="none">
+        <defs><clipPath id="ftl"><path d="M100,100 L0,100 L0,0 L100,0Z"/></clipPath><clipPath id="ftr"><path d="M100,100 L100,0 L200,0 L200,100Z"/></clipPath><clipPath id="fbl"><path d="M100,100 L100,200 L0,200 L0,100Z"/></clipPath><clipPath id="fbr"><path d="M100,100 L200,100 L200,200 L100,200Z"/></clipPath><mask id="fcm"><rect width="200" height="200" fill="white"/><circle cx="100" cy="100" r="14" fill="black"/></mask></defs>
+        <g mask="url(#fcm)"><g clip-path="url(#ftl)"><g transform="rotate(-45,100,100)"><ellipse cx="100" cy="54" rx="30" ry="50" stroke="#E63946" stroke-width="2.8" fill="none"/><ellipse cx="100" cy="62" rx="22" ry="38" stroke="#E63946" stroke-width="2.2" fill="none"/><ellipse cx="100" cy="70" rx="13" ry="24" stroke="#E63946" stroke-width="1.8" fill="none"/></g></g><g clip-path="url(#ftr)"><g transform="rotate(45,100,100)"><ellipse cx="100" cy="54" rx="30" ry="50" stroke="#FF8C00" stroke-width="2.8" fill="none"/><ellipse cx="100" cy="62" rx="22" ry="38" stroke="#FF8C00" stroke-width="2.2" fill="none"/><ellipse cx="100" cy="70" rx="13" ry="24" stroke="#FF8C00" stroke-width="1.8" fill="none"/></g></g><g clip-path="url(#fbl)"><g transform="rotate(-135,100,100)"><ellipse cx="100" cy="54" rx="30" ry="50" stroke="#0096B4" stroke-width="2.8" fill="none"/><ellipse cx="100" cy="62" rx="22" ry="38" stroke="#0096B4" stroke-width="2.2" fill="none"/><ellipse cx="100" cy="70" rx="13" ry="24" stroke="#0096B4" stroke-width="1.8" fill="none"/></g></g><g clip-path="url(#fbr)"><g transform="rotate(135,100,100)"><ellipse cx="100" cy="54" rx="30" ry="50" stroke="#00B87A" stroke-width="2.8" fill="none"/><ellipse cx="100" cy="62" rx="22" ry="38" stroke="#00B87A" stroke-width="2.2" fill="none"/><ellipse cx="100" cy="70" rx="13" ry="24" stroke="#00B87A" stroke-width="1.8" fill="none"/></g></g></g>
+        <circle cx="100" cy="100" r="10" fill="#5858FF"/>
+      </svg>
+      <span>Open Climate Risk Platform &mdash; MIT License</span>
+    </div>
+    <div class="footer-links">
+      <a href="#">GitHub</a>
+      <a href="#">Documentation</a>
+      <a href="#">PyPI</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ Scripts ═══════════════════════════════════════════════ -->
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Copy install command
+  function copyInstall() {
+    navigator.clipboard.writeText('pip install open-climate-risk');
+    const hint = document.getElementById('copy-hint');
+    hint.textContent = 'copied!';
+    hint.style.color = '#22C55E';
+    setTimeout(() => {
+      hint.textContent = 'click to copy';
+      hint.style.color = '#6B7280';
+    }, 2000);
+  }
+</script>
+
+</body>
+</html>

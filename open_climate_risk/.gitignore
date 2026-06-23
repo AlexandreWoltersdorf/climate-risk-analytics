@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Environments
+.venv/
+venv/
+env/
+.conda/
+
+# Aqueduct GeoTIFFs (~7 GB — streamed from S3 or downloaded locally)
+data/aqueduct/*.tif
+
+# Generated outputs (reproducible from notebook)
+outputs/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Secrets / credentials
+.env
+*.pem
+*.key

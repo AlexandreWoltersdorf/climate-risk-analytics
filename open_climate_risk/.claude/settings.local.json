@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \":*)",
+      "Bash(python -c \"import contextily; print\\(''contextily'', contextily.__version__\\)\")",
+      "Bash(conda run:*)",
+      "Bash(conda env:*)",
+      "Bash(conda info:*)",
+      "Read(//opt/miniconda3/envs/**)",
+      "Bash(/opt/miniconda3/envs/eq/bin/python -c \"import contextily\")",
+      "Bash(/opt/miniconda3/envs/fea/bin/python -c \"import contextily; print\\(''''ok fea''''\\)\")",
+      "Bash(python3:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "mcp__6f645cdb-5d37-4e21-a570-e75066f13d16__notion-update-page",
+      "mcp__6f645cdb-5d37-4e21-a570-e75066f13d16__notion-update-data-source",
+      "mcp__6f645cdb-5d37-4e21-a570-e75066f13d16__notion-update-view",
+      "WebFetch(domain:base-inies.fr)",
+      "Read(//Users/alexandre/Documents/Github/leko-engine/**)",
+      "Bash(PYTHONPATH=src python3 << 'PYEOF':*)",
+      "Bash(PATH=\"/usr/local/bin:/usr/bin:/bin:$PATH\")"
+    ]
+  }
+}

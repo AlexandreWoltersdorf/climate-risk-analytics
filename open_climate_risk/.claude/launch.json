@@ -1,0 +1,24 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "website",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8080", "-d", "/Users/alexandre/Documents/Geospatial/open_climate_risk/website"],
+      "port": 8080
+    },
+    {
+      "name": "kbc-site",
+      "runtimeExecutable": "/usr/bin/ruby",
+      "runtimeArgs": ["-e", "require 'webrick'; s=WEBrick::HTTPServer.new(:Port=>8788,:DocumentRoot=>'/tmp/kbc_site'); trap('INT'){s.shutdown}; s.start"],
+      "port": 8788
+    },
+    {
+      "name": "mes-depenses",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["expo", "start", "--web", "--port", "8081"],
+      "port": 8081,
+      "cwd": "/Users/alexandre/Documents/Perso/MesDepenses"
+    }
+  ]
+}
